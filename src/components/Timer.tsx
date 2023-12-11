@@ -25,7 +25,9 @@ function printState(taskList, currentTask, timeLeft, timerOn) {
 }
 
 function Timer() {
-    const [taskList, setTaskList] = useState<Task[]>([]);
+    const [taskList, setTaskList] = useState<Task[]>([
+        {name: "", duration: 1}
+    ]);
     const [currentTask, setCurrentTask] = useState<number>(0);
     const [timeLeft, setTimeLeft] = useState<number>(0);
     const [timerOn, setTimerOn] = useState<boolean>(false);

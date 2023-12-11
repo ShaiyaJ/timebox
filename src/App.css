@@ -1,0 +1,46 @@
+/* :root {
+    --main-bg-color     : #FFFFFF;
+    --highlight-bg-color: #FFFFFF;
+    --button-bg-color   : #FFFFFF;
+    --button-high-color : #FFFFFF;
+    --text-color        : #000000;
+
+}
+
+* {
+    background-color: var(--main-bg-color);
+}
+
+.App {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+}
+
+button {
+    background-color: var(--button-bg-color);
+    color: var(--text-color);
+    border-radius: 5px;
+    text-decoration: none;
+    margin: 5px 5px;
+}
+
+input {
+    background-color: var(--button-bg-color);
+    color: var(--text-color);
+    border-radius: 5px;
+    text-decoration: none;
+    margin: 5px 5px;
+}
+
+.task-container {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+}
+
+.task-container-active {
+    background-color: var(--highlight-bg-color);
+} */

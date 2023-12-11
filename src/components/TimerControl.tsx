@@ -15,7 +15,7 @@ function resetTask(taskList, currentTask, setTimeLeft) {
 }
 
 function nextTask(taskList, currentTask, setCurrentTask, setTimeLeft) {
-    if (taskList.length === 0) {return}     // Avoids neverending loop when taskList's length is 0
+    if (taskList.length === 0) {return}     // Avoids never ending loop when taskList's length is 0
 
     const nextTask = (currentTask+1) % taskList.length;
     setCurrentTask(nextTask);

@@ -28,13 +28,21 @@ function editTask(taskList: Task[], setTaskList: any, index: number, value: Task
     );
 }
 
-function removeTask(taskList: Task[], setTaskList: any, currentTask, setCurrentTask, index: number) {    // FIXME 
+function removeTask(taskList: Task[], setTaskList: any, currentTask, setCurrentTask, index: number) { 
+    if (taskList.length === 1) {        // Avoiding errors caused by having no tasks in tasklist
+        setTaskList([
+            {name: "", duration: 1}
+        ]);
+        
+        return;
+    }
+
     setTaskList(
         taskList.filter(t => taskList.indexOf(t) !== index)
     ); 
 
     if (index <= currentTask) {
-        setCurrentTask(index);
+        setCurrentTask((index+1) % taskList.length-1);
     }
 } 
 
@@ -45,11 +53,14 @@ function TaskManager(
     // ADDME:   debounce input to reduce writes to state
     //          also improves UI as empty durations can exist when debounced
 
-    return <>
+    return <div className="task-container">
         {
             // Generating html for each task
             taskList.map((task, idx) => {                                                                                                                                               // ADDME: highlight current task
-                return <div key={idx}>
+                return <div 
+                    className={""} 
+                    key={idx}
+                >
                     <button onClick={ () => removeTask(taskList, setTaskList, currentTask, setCurrentTask, idx) }>X</button>
                     <input type="text"   value={task.name}     onChange={ (e) => editTask(taskList, setTaskList, idx, {name: e.target.value, duration: task.duration } ) } />
                     <input type="number" value={task.duration} onChange={ (e) => editTask(taskList, setTaskList, idx, {name: task.name, duration: parseInt(e.target.value) } ) } min={1} />
@@ -62,7 +73,7 @@ function TaskManager(
         <div>
             <button onClick={ () => addTask(taskList, setTaskList) }>+</button>
         </div>
-    </>
+    </div>
 }
 
 export default TaskManager;
