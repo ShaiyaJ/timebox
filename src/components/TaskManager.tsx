@@ -6,21 +6,29 @@ import React, { useEffect, useRef, useState } from "react";
 import type { Task } from "./Timer";
 
 function addTask(taskList: Task[], setTaskList: any) {
-    taskList.push({ name: "", duration: 0 });
-    setTaskList(taskList);
+    setTaskList([
+        ...taskList, 
+        { name: "", duration: 0 }
+    ]);
 }
 
 function editTask(taskList: Task[], setTaskList: any, index: number, value: Task) {
-    taskList[index] = value;
-    setTaskList(taskList);
+    setTaskList(
+        taskList.map((task, idx) => {
+            if (idx === index) {
+                return value;
+            } else {
+                return task;
+            }
+        })
+    );
 }
 
 function removeTask(taskList: Task[], setTaskList: any, index: number) {    // FIXME 
-    const newTaskList = taskList.splice(index, 1);
-    setTaskList(newTaskList); 
+    setTaskList(
+        taskList.filter(t => taskList.indexOf(t) !== index)
+    ); 
 } 
-
-
 
 function TaskManager(
     { taskList, setTaskList, currentTask, setCurrentTask, timeLeft, setTimeLeft }:
@@ -38,7 +46,7 @@ function TaskManager(
             })
         }
 
-        {/*Adding tasks*/}
+        {/*Adding tasks*/} 
         
         <div>
             <button onClick={ () => addTask(taskList, setTaskList) }>+</button>
