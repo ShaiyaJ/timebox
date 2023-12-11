@@ -15,6 +15,8 @@ function resetTask(taskList, currentTask, setTimeLeft) {
 }
 
 function nextTask(taskList, currentTask, setCurrentTask, setTimeLeft) {
+    if (taskList.length === 0) {return}     // Avoids neverending loop when taskList's length is 0
+
     const nextTask = (currentTask+1) % taskList.length;
     setCurrentTask(nextTask);
     setTimeLeft(taskList[nextTask].duration);
@@ -28,12 +30,21 @@ function TimerControl(
         nextTask(taskList, currentTask, setCurrentTask, setTimeLeft);
     }
 
+    // Computing state
+    const name: string | number = (() => {
+        if (taskList.length === 0) {
+            return "NONE"
+        } else {
+            return taskList[currentTask].name;
+        }
+    })();
+
     return <>
         <h1>{timeLeft}</h1>
-        <span>Current Task:</span> {taskList[currentTask].name}                                                         <br />
-        <button onClick={() => toggleTimer(timerOn, setTimerOn)}                                >Start/Stop</button>    <br />
-        <button onClick={() => resetTask(taskList, currentTask, setTimeLeft)}                   >Reset Task</button>    <br />
-        <button onClick={() => nextTask(taskList, currentTask, setCurrentTask, setTimeLeft)}    >Skip Task</button>     <br />
+        <span>Current Task:</span> {name}                                                     <br />
+        <button onClick={() => toggleTimer(timerOn, setTimerOn)}                            >Start/Stop</button>    <br />
+        <button onClick={() => resetTask(taskList, currentTask, setTimeLeft)}               >Reset Task</button>    <br />
+        <button onClick={() => nextTask(taskList, currentTask, setCurrentTask, setTimeLeft)}>Skip Task</button>     <br />
     </>
 }
 
