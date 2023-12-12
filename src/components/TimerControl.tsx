@@ -39,13 +39,13 @@ function TimerControl(
         }
     })();
 
-    return <>
-        <h1>{timeLeft}</h1>
-        <span>Current Task:</span> {name}                                                     <br />
+    return <div className="timer">
+        <h1 className={timerOn ? "timer-active" : "timer-inactive"}>{timeLeft}</h1>
+        <h3 className={"wrap"}>-- {name} --</h3>
         <button onClick={() => toggleTimer(timerOn, setTimerOn)}                            >Start/Stop</button>    <br />
         <button onClick={() => resetTask(taskList, currentTask, setTimeLeft)}               >Reset Task</button>    <br />
         <button onClick={() => nextTask(taskList, currentTask, setCurrentTask, setTimeLeft)}>Skip Task</button>     <br />
-    </>
+    </div>
 }
 
 export default TimerControl;

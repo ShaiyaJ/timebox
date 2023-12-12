@@ -1,14 +1,18 @@
-/* :root {
+:root {
     --main-bg-color     : #FFFFFF;
-    --highlight-bg-color: #FFFFFF;
+    --highlight-bg-color: #888888;
     --button-bg-color   : #FFFFFF;
-    --button-high-color : #FFFFFF;
+    --button-high-color : #000000;
     --text-color        : #000000;
 
 }
 
 * {
     background-color: var(--main-bg-color);
+    color: var(--text-color);
+    @media (max-width: 500px) {
+        width: 100vw;
+    }
 }
 
 .App {
@@ -16,20 +20,29 @@
     display: flex;
     -webkit-flex-direction: column;
     flex-direction: column;
+    height: 100%;
+    width: 500px;
+    margin: 0 auto;
+}
+
+hr {
+    color: var(--highlight-bg-color);
 }
 
 button {
     background-color: var(--button-bg-color);
-    color: var(--text-color);
     border-radius: 5px;
+    border-style: solid;
+    border-color: var(--button-high-color);
     text-decoration: none;
     margin: 5px 5px;
 }
 
 input {
     background-color: var(--button-bg-color);
-    color: var(--text-color);
     border-radius: 5px;
+    border-style: solid;
+    border-color: var(--button-high-color);
     text-decoration: none;
     margin: 5px 5px;
 }
@@ -42,5 +55,45 @@ input {
 }
 
 .task-container-active {
+    border-radius: 5px;
     background-color: var(--highlight-bg-color);
-} */
+}
+
+.task {
+    display: flex;
+}
+
+.delete-task {
+    order: 1;
+    flex-grow: 0;
+}
+
+.name-task {
+    order: 2;
+    flex-grow: 1;
+}
+
+.duration-task {
+    order: 3;
+    flex-grow: 1;
+}
+
+.timer {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.timer-active {
+    color: var(--text-color);
+}
+
+.timer-inactive {
+    color: var(--highlight-bg-color);
+}
+
+.wrap {
+    word-break: break-all;
+    white-space: normal !important;
+    width: 500px;
+}
