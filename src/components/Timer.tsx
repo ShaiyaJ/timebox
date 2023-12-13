@@ -25,6 +25,7 @@ function printState(taskList, currentTask, timeLeft, timerOn) {
 }
 
 function Timer() {
+    // State
     const [taskList, setTaskList] = useState<Task[]>([
         {name: "", duration: 0}
     ]);
@@ -32,6 +33,7 @@ function Timer() {
     const [timeLeft, setTimeLeft] = useState<number>(0);
     const [timerOn, setTimerOn] = useState<boolean>(false);
 
+    // Timer tick loop
     useEffect(() => {
         printState(taskList, currentTask, timeLeft, timerOn);
         if (!timerOn || timeLeft === 0) {return}
@@ -42,7 +44,7 @@ function Timer() {
 
     return <>
         <TimerControl
-            taskList={taskList} setTaskList={setTaskList} 
+            taskList={taskList} 
             currentTask={currentTask} setCurrentTask={setCurrentTask}
             timeLeft={timeLeft} setTimeLeft={setTimeLeft}
             timerOn={timerOn} setTimerOn={setTimerOn}
@@ -53,7 +55,7 @@ function Timer() {
         <TaskManager 
             taskList={taskList} setTaskList={setTaskList} 
             currentTask={currentTask} setCurrentTask={setCurrentTask}
-            timeLeft={timeLeft} setTimeLeft={setTimeLeft}
+            setTimeLeft={setTimeLeft}
         />
     </>
 }

@@ -2,7 +2,7 @@
  *      Responsible for adding, removing and modifying tasks in the timer 
  */
 
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import type { Task } from "./Timer";
 
 function addTask(taskList: Task[], setTaskList: any) {
@@ -51,17 +51,14 @@ function removeTask(taskList: Task[], setTaskList: any, currentTask: number, set
 } 
 
 function TaskManager(
-    { taskList, setTaskList, currentTask, setCurrentTask, timeLeft, setTimeLeft }:
-    { taskList: Task[], setTaskList: any, currentTask: number, setCurrentTask: any, timeLeft: number, setTimeLeft: any }
+    { taskList, setTaskList, currentTask, setCurrentTask, setTimeLeft }:
+    { taskList: Task[], setTaskList: any, currentTask: number, setCurrentTask: any, setTimeLeft: any }
 ) {
-    // ADDME:   debounce input to reduce writes to state
-    //          also improves UI as empty durations can exist when debounced
-
     return <div className="task-container">
         {
             // Generating html for each task
             taskList.map((task, idx) => {
-                const isHighlighed = idx === currentTask ? "task-container-active" : "";                                                                                                                                     // ADDME: highlight current task
+                const isHighlighed = idx === currentTask ? "task-container-active" : ""; 
                 const cssClasses = `task ${isHighlighed}`;
 
                 const h = Math.floor(task.duration / 3600).toString();
