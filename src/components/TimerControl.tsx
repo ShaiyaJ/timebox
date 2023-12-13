@@ -3,12 +3,25 @@
  *      starting/stopping, or skipping the timer.
  */
 
-import React from "react";
+import React, { useRef } from "react";
 import type { Task } from "./Timer";
 
 // Utils
-function returnAudioContext(): HTMLAudioElement {   // ADDME: option to upload own audio
-    return new Audio("");
+async function playSound() {   // ADDME: option to upload own audio
+    const audio = new Audio(require("../assets/alarm.mp3"));
+
+    const audioPromise = audio.play();
+    if (audioPromise !== undefined) {
+        audioPromise
+            .then(() => {
+                // autoplay started
+                console.log("works");
+            })
+            .catch((err) => {
+                // catch dom exception
+                console.info(err);
+            });
+    }
 } 
 
 
@@ -39,7 +52,7 @@ function offsetCurrentTask(taskList: Task[], currentTask: number, setCurrentTask
 
     // Displaying notification
     if (timerOn) {
-        returnAudioContext().play();
+        playSound();
     }
 }
 
@@ -73,6 +86,9 @@ function TimerControl(
     const dm = m.length === 1 ? `0${m}` : m;
     const ds = s.length === 1 ? `0${s}` : s;
 
+    // Ref for audio
+    const audioRef = useRef(null);
+
     return <div className="timer">
         <h1 className={timerOn ? "timer-active" : "timer-inactive"}>{dh}:{dm}:{ds}</h1>
         <h3 className={"wrap"}>-- {name} --</h3>
@@ -82,6 +98,8 @@ function TimerControl(
             <button onClick={() => offsetCurrentTask(taskList, currentTask, setCurrentTask, setTimeLeft, timerOn, -1)}>Previous Task</button>
             <button onClick={() => offsetCurrentTask(taskList, currentTask, setCurrentTask, setTimeLeft, timerOn, 1)}>Next Task</button> <br />
         </div>
+
+        <audio ref={audioRef} src="../assets/alarm.mp3"></audio>
     </div>
 }
 
