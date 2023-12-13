@@ -8,18 +8,18 @@ import type { Task } from "./Timer";
 function addTask(taskList: Task[], setTaskList: any) {
     setTaskList([
         ...taskList, 
-        { name: "", duration: 1 }
+        { name: "", duration: 0 }
     ]);
 }
 
 function editTask(taskList: Task[], setTaskList: any, currentTask: number, setTimeLeft: any, index: number, value: Task) {
-    if (value.duration <= 0 || Number.isNaN(value.duration)) {  // Range check to force value to "1" to avoid weird skipping behavior
-        value.duration = 1;
+    if (Number.isNaN(value.duration)) {     // Sets a value if NaN to force <input> to display 00:00:00 instead of --:-- 
+        value.duration = 0;                 // while also avoiding errors in the console due to NaN type
     }
 
     setTaskList(
         taskList.map((task, idx) => {
-            if (idx === index) {
+            if (idx === index) {    // Acts as a filter, returning the new task if idx === index, otherwise returning old tasks
                 return value;
             } else {
                 return task;
@@ -35,7 +35,7 @@ function editTask(taskList: Task[], setTaskList: any, currentTask: number, setTi
 function removeTask(taskList: Task[], setTaskList: any, currentTask: number, setCurrentTask: any, index: number) { 
     if (taskList.length === 1) {        // Avoiding errors caused by having no tasks in tasklist
         setTaskList([
-            {name: "", duration: 1}
+            {name: "", duration: 0}
         ]);
         
         return;
@@ -64,13 +64,33 @@ function TaskManager(
                 const isHighlighed = idx === currentTask ? "task-container-active" : "";                                                                                                                                     // ADDME: highlight current task
                 const cssClasses = `task ${isHighlighed}`;
 
+                const h = Math.floor(task.duration / 3600).toString();
+                const m = Math.floor(task.duration % 3600 / 60).toString();
+                const s = Math.floor(task.duration % 3600 % 60).toString();
+            
+                const dh = h.length === 1 ? `0${h}` : h;
+                const dm = m.length === 1 ? `0${m}` : m;
+                const ds = s.length === 1 ? `0${s}` : s;
+                
+                console.log(dh, dm, ds);
+
                 return <div 
                     className={cssClasses}
                     key={idx}
                 >
                     <button className="delete-task" onClick={ () => removeTask(taskList, setTaskList, currentTask, setCurrentTask, idx) }>X</button>
                     <input  className="name-task" type="text"   value={task.name}     onChange={ (e) => editTask(taskList, setTaskList, currentTask, setTimeLeft, idx, {name: e.target.value, duration: task.duration } ) } />
-                    <input  className="duration-task" type="number" value={task.duration} onChange={ (e) => editTask(taskList, setTaskList, currentTask, setTimeLeft, idx, {name: task.name, duration: parseInt(e.target.value) } ) } min={1} />
+                    <input  className="duration-task" type="time" value={`${dh}:${dm}:${ds}`} onChange={ (e) => {
+                        const rawDuration = e.target.value.split(":");
+
+                        const hours   = parseInt(rawDuration[0]);
+                        const minutes = parseInt(rawDuration[1]);
+                        const seconds = parseInt(rawDuration[2]);
+
+                        const duration = (hours*60*60) + (minutes*60) + seconds;
+
+                        editTask(taskList, setTaskList, currentTask, setTimeLeft, idx, {name: task.name, duration: duration } ) } 
+                    } min={"00:00:00"} step={1} />
                 </div>
             })
         }

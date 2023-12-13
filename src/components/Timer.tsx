@@ -26,7 +26,7 @@ function printState(taskList, currentTask, timeLeft, timerOn) {
 
 function Timer() {
     const [taskList, setTaskList] = useState<Task[]>([
-        {name: "", duration: 1}
+        {name: "", duration: 0}
     ]);
     const [currentTask, setCurrentTask] = useState<number>(0);
     const [timeLeft, setTimeLeft] = useState<number>(0);
@@ -38,7 +38,7 @@ function Timer() {
 
         const interval = setInterval(() => setTimeLeft(timeLeft-1), 1000);
         return () => clearInterval(interval);
-    }, [timeLeft, timerOn])
+    }, [timeLeft, timerOn]);
 
     return <>
         <TimerControl
