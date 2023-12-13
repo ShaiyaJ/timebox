@@ -71,8 +71,6 @@ function TaskManager(
                 const dh = h.length === 1 ? `0${h}` : h;
                 const dm = m.length === 1 ? `0${m}` : m;
                 const ds = s.length === 1 ? `0${s}` : s;
-                
-                console.log(dh, dm, ds);
 
                 return <div 
                     className={cssClasses}

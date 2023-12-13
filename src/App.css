@@ -47,6 +47,15 @@ input {
     margin: 5px 5px;
 }
 
+.next-prev-container {
+    display: flex;
+}
+
+.next-prev-container button {
+    width: 50%;
+    flex-grow: 1;
+}
+
 .task-container {
     display: -webkit-flex;
     display: flex;

@@ -14,13 +14,17 @@ function resetTask(taskList, currentTask, setTimeLeft) {
     setTimeLeft(taskList[currentTask].duration);
 }
 
-function nextTask(taskList: Task[], currentTask, setCurrentTask, setTimeLeft) {
+function offsetCurrentTask(taskList: Task[], currentTask, setCurrentTask, setTimeLeft, diff: number) {
     // Avoiding never ending loops
     if (taskList.length === 0) {return}                                     // Avoids never ending loop when taskList's length is 0
     if (taskList.every((task) => {return task.duration === 0})) {return}    // Avoids never ending "nextTask" calls when all durations are 0
 
+    // Calculating next task index in taskList
+    // If the next task's position is -1 then it wraps around the taskList, to the last task
+    // Otherwise it limits the value by the length of the task list (% taskList.length) to avoid index errors
+    const nextTask = (currentTask + diff) === -1 ? taskList.length-1 : (currentTask + diff) % taskList.length;
+
     // Setting currentTask
-    const nextTask = (currentTask+1) % taskList.length;
     setCurrentTask(nextTask);
     setTimeLeft(taskList[nextTask].duration);
 }
@@ -30,7 +34,7 @@ function TimerControl(
     { taskList: Task[], setTaskList: any, currentTask: number, setCurrentTask: any, timeLeft: number, setTimeLeft: any, timerOn: boolean, setTimerOn: any }
 ) {
     if (timeLeft <= 0) {
-        nextTask(taskList, currentTask, setCurrentTask, setTimeLeft);
+        offsetCurrentTask(taskList, currentTask, setCurrentTask, setTimeLeft, 1);
     }
 
     // Computing state
@@ -55,7 +59,10 @@ function TimerControl(
         <h3 className={"wrap"}>-- {name} --</h3>
         <button onClick={() => toggleTimer(timerOn, setTimerOn)}                            >Start/Stop</button>    <br />
         <button onClick={() => resetTask(taskList, currentTask, setTimeLeft)}               >Reset Task</button>    <br />
-        <button onClick={() => nextTask(taskList, currentTask, setCurrentTask, setTimeLeft)}>Skip Task</button>     <br />
+        <div className="next-prev-container">
+            <button onClick={() => offsetCurrentTask(taskList, currentTask, setCurrentTask, setTimeLeft, -1)}>Previous Task</button>
+            <button onClick={() => offsetCurrentTask(taskList, currentTask, setCurrentTask, setTimeLeft, 1)}>Next Task</button>     <br />
+        </div>
     </div>
 }
 
