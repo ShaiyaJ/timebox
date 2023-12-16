@@ -46,8 +46,14 @@ function removeTask(taskList: Task[], setTaskList: any, currentTask: number, set
     ); 
 
     if (index <= currentTask) {
-        setCurrentTask((index+1) % taskList.length-1);
-    }
+        const newIndex = (index+1) % taskList.length-1 
+
+        if (newIndex < 0) {
+            setCurrentTask(0);
+        } else {
+            setCurrentTask(newIndex);
+        }
+    } 
 } 
 
 function TaskManager(
