@@ -10,12 +10,11 @@ import type { Task } from "./Timer";
 async function playSound() {   // ADDME: option to upload own audio
     const audio = new Audio(require("../assets/alarm.mp3"));
 
-    const audioPromise = audio.play();
+    const audioPromise = audio.play(); // FIXME: audio duplicates if tasks are of small duration
     if (audioPromise !== undefined) {
         audioPromise
             .then(() => {
-                // autoplay started
-                console.log("works");
+                console.log("Audio");
             })
             .catch((err) => {
                 // catch dom exception
@@ -86,9 +85,6 @@ function TimerControl(
     const dm = m.length === 1 ? `0${m}` : m;
     const ds = s.length === 1 ? `0${s}` : s;
 
-    // Ref for audio
-    const audioRef = useRef(null);
-
     return <div className="timer">
         <h1 className={timerOn ? "timer-active" : "timer-inactive"}>{dh}:{dm}:{ds}</h1>
         <h3 className={"wrap"}>-- {name} --</h3>
@@ -99,7 +95,7 @@ function TimerControl(
             <button onClick={() => offsetCurrentTask(taskList, currentTask, setCurrentTask, setTimeLeft, timerOn, 1)}>Next Task</button> <br />
         </div>
 
-        <audio ref={audioRef} src="../assets/alarm.mp3"></audio>
+        <audio src="../assets/alarm.mp3"></audio>
     </div>
 }
 
