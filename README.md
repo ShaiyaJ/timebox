@@ -46,16 +46,8 @@ Then, move up to the timer area, start/stop will toggle the timer on or off, res
 ## Planned features
 This project was completed as apart of a series of projects which I dedicate only 2 days to (from the beginning of planning, to learning the technologies involved and right to the end of development). For this reason, the application right now is pretty bare bones. I wish to add the following features in the future.
 
-[ ] Highlighting the current task for quality of life
-
-[ ] Debouncing duration inputs for quality of life
-
-[ ] Adding CSS to the application for quality of life and visual clarity
-
 [ ] Occasionally saving state in localStorage and reloading this state on app load 
 
 [ ] Adding a preset loader (perhaps even with custom presets?)
-
-[ ] Alerting the user with a sound or popup (or both) when the task is over
 
 [ ] Code review by a react developer in order to learn the best practices

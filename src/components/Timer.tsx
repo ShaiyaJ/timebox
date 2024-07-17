@@ -32,13 +32,19 @@ function Timer() {
     const [currentTask, setCurrentTask] = useState<number>(0);
     const [timeLeft, setTimeLeft] = useState<number>(0);
     const [timerOn, setTimerOn] = useState<boolean>(false);
+    const [lastTick, setLastTick] = useState<number>(Date.now() / 1000);
 
     // Timer tick loop
     useEffect(() => {
         printState(taskList, currentTask, timeLeft, timerOn);
         if (!timerOn || timeLeft === 0) {return}
 
-        const interval = setInterval(() => setTimeLeft(timeLeft-1), 1000);
+        const currentTick = Date.now() / 1000;
+        console.log("current tick", currentTick-lastTick);
+        console.log("time left", timeLeft)
+        const interval = setInterval(() => setTimeLeft(timeLeft-(currentTick-lastTick)), 10); 
+        setLastTick(currentTick); 
+        
         return () => clearInterval(interval);
     }, [timeLeft, timerOn]);
 
@@ -48,6 +54,7 @@ function Timer() {
             currentTask={currentTask} setCurrentTask={setCurrentTask}
             timeLeft={timeLeft} setTimeLeft={setTimeLeft}
             timerOn={timerOn} setTimerOn={setTimerOn}
+            setLastTick={setLastTick}
         />
 
         <hr /> 

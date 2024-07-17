@@ -27,7 +27,8 @@ async function playSound() {   // ADDME: option to upload own audio
 
 // Timer control
 
-function toggleTimer(timerOn: boolean, setTimerOn: any) {
+function toggleTimer(timerOn: boolean, setTimerOn: any, setLastTick: any) {
+    setLastTick(Date.now() / 1000);
     setTimerOn(!timerOn);
 }
 
@@ -60,8 +61,8 @@ function offsetCurrentTask(taskList: Task[], currentTask: number, setCurrentTask
 // Component 
 
 function TimerControl(
-    { taskList, currentTask, setCurrentTask, timeLeft, setTimeLeft, timerOn, setTimerOn }:
-    { taskList: Task[], currentTask: number, setCurrentTask: any, timeLeft: number, setTimeLeft: any, timerOn: boolean, setTimerOn: any }
+    { taskList, currentTask, setCurrentTask, timeLeft, setTimeLeft, timerOn, setTimerOn, setLastTick }:
+    { taskList: Task[], currentTask: number, setCurrentTask: any, timeLeft: number, setTimeLeft: any, timerOn: boolean, setTimerOn: any, setLastTick: any }
 ) {
     // Calling offCurrentTask (next task) if duration has elapsed
     if (timeLeft <= 0) {
@@ -88,7 +89,7 @@ function TimerControl(
     return <div className="timer">
         <h1 className={timerOn ? "timer-active" : "timer-inactive"}>{dh}:{dm}:{ds}</h1>
         <h3 className={"wrap"}>-- {name} --</h3>
-        <button onClick={() => toggleTimer(timerOn, setTimerOn)}>Start/Stop</button> <br />
+        <button onClick={() => toggleTimer(timerOn, setTimerOn, setLastTick)}>Start/Stop</button> <br />
         <button onClick={() => resetTask(taskList, currentTask, setTimeLeft)}>Reset Task</button> <br />
         <div className="next-prev-container">
             <button onClick={() => offsetCurrentTask(taskList, currentTask, setCurrentTask, setTimeLeft, timerOn, -1)}>Previous Task</button>
